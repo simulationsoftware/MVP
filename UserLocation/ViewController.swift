@@ -13,20 +13,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var locationManager = CLLocationManager()
     var currentLat = double_t()
     var currentLon = double_t()
-    var pins: [Locations] = []
+    let quest = LinkedList()
     @IBOutlet weak var map: MKMapView!
 
     //find a way to add multiple annotations
     @IBAction func markLocation(_ sender: UIButton) {
-        pins.append(Locations(latitude: currentLat, longitude: currentLon))
-        for locations in pins {
+        quest.append(latitude: currentLat, longitude: currentLon)
+        for locations in quest {
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: locations.latitude, longitude: locations.longitude)
             map.addAnnotation(annotation)
-            print(locations)
+            quest.printList()
             print(" ")
         }
     }
+    
+    
+    @IBAction func endQuest(_ sender: Any) {
+        print(quest)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
