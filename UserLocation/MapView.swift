@@ -17,7 +17,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var currentLon = double_t()
     let quest = LinkedList()
     let locStack = Stack<Locations>()
+    let db = Firestore.firestore()
     var window: UIWindow?
+    var questcount = 0
+    var questreference = String()
     var map: MKMapView!
 
     
@@ -45,7 +48,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     let followQuestButton: UIButton = {
         let si = UIButton(type: .system)
         si.backgroundColor = .gray
-        si.setTitle("Sign In", for: .normal)
+        si.setTitle("Start", for: .normal)
         si.setTitleColor(.blue, for: .normal)
         si.addTarget(self, action: #selector(followQuestFunc), for: .touchUpInside)
         si.layer.cornerRadius = 8.0
@@ -54,20 +57,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     //FUNCTION CHANGES VIEW TO LOGIN CONTROLLER
     @objc func followQuestFunc() {
-        let logincontroller = FollowQuestController()
-        present(logincontroller, animated: true, completion: {})
+        let userID = Auth.auth().currentUser!.uid
+        let timeStamp = NSDate()
+        questreference = "\(userID)\(timeStamp)"
+        var ref: DocumentReference? = nil
+        ref = db.collection("Log").document("quest\(questreference)")
+        
+        ref!.setData(["timestamp": timeStamp, "UID": userID, "location 1": 0.00, "location 2": 0.00, "location 3": 0.00])
     }
     
     
     
     
-    //find a way to add multiple annotations
+    //adds annotations
     @objc func markLocation(_ sender: Any) {
         quest.append(latitude: currentLat, longitude: currentLon)
         for locations in quest {
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: locations.latitude, longitude: locations.longitude)
             map.addAnnotation(annotation)
+            print(locations)
         }
     }
     
@@ -76,19 +85,17 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     @objc func endQuest(_ sender: Any) {
         print("end")
-        let userID = Auth.auth().currentUser!.uid
         var ref: DocumentReference? = nil
-        let db = Firestore.firestore()
-        ref = db.collection("Log").document()
-        let timestamp = NSDate().timeIntervalSince1970
-        let myTimeInterval = TimeInterval(timestamp)
+        ref = db.collection("Log").document("quest\(questreference)")
+        var counter = 0
         for locations in quest{
+            counter += 1
             let latlon = GeoPoint(latitude: locations.latitude, longitude: locations.longitude)
-            ref!.setData([ "Locations": FieldValue.arrayUnion([latlon]), "UID": userID, "Timestamp": myTimeInterval], merge: true)
+                ref!.updateData(["location \(counter)": latlon])
+            
         }
         quest.removeAll()
     }
-    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
