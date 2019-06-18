@@ -11,7 +11,6 @@ import Firebase
 import MapKit
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
-    
     var locationManager = CLLocationManager()
     var currentLat = double_t()
     var currentLon = double_t()
@@ -23,7 +22,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     var questreference = String()
     var map: MKMapView!
 
-    
+
     let markButton: UIButton = {
         let butt = UIButton(type: .system)
         butt.backgroundColor = .gray
@@ -33,7 +32,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         butt.layer.cornerRadius = 8.0
         return butt
     }()
-    
+
     let endButton: UIButton = {
         let butt = UIButton(type: .system)
         butt.backgroundColor = .gray
@@ -43,33 +42,29 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         butt.layer.cornerRadius = 8.0
         return butt
     }()
-    
-    //BUTTON THAT TAKES YOU TO SIGN IN PAGE
-    let followQuestButton: UIButton = {
+
+    let startQuestButton: UIButton = {
         let si = UIButton(type: .system)
         si.backgroundColor = .gray
         si.setTitle("Start", for: .normal)
         si.setTitleColor(.blue, for: .normal)
-        si.addTarget(self, action: #selector(followQuestFunc), for: .touchUpInside)
+        si.addTarget(self, action: #selector(startQuestFunc), for: .touchUpInside)
         si.layer.cornerRadius = 8.0
         return si
     }()
-    
-    //FUNCTION CHANGES VIEW TO LOGIN CONTROLLER
-    @objc func followQuestFunc() {
+
+
+    //Function creates document in database. Sets global variable questReference to the documents ID.
+    @objc func startQuestFunc() {
         let userID = Auth.auth().currentUser!.uid
         let timeStamp = NSDate()
-        questreference = "\(userID)\(timeStamp)"
         var ref: DocumentReference? = nil
+        questreference = "\(userID)\(timeStamp)"
         ref = db.collection("Log").document("quest\(questreference)")
-        
         ref!.setData(["timestamp": timeStamp, "UID": userID, "location 1": 0.00, "location 2": 0.00, "location 3": 0.00])
     }
-    
-    
-    
-    
-    //adds annotations
+
+    //Adds current location to quest array. Loops through array and annotates location on map.
     @objc func markLocation(_ sender: Any) {
         quest.append(latitude: currentLat, longitude: currentLon)
         for locations in quest {
@@ -79,33 +74,31 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             print(locations)
         }
     }
-    
-    
-    
-    
+
+    //Updates data from document created in startQuestFunction. Also clears array.
     @objc func endQuest(_ sender: Any) {
-        print("end")
         var ref: DocumentReference? = nil
-        ref = db.collection("Log").document("quest\(questreference)")
         var counter = 0
-        for locations in quest{
+        ref = db.collection("Log").document("quest\(questreference)")
+        for locations in quest {
             counter += 1
             let latlon = GeoPoint(latitude: locations.latitude, longitude: locations.longitude)
-                ref!.updateData(["location \(counter)": latlon])
-            
+            ref!.updateData(["location \(counter)": latlon])
         }
         quest.removeAll()
+        print("Ended")
     }
-    
+
+    //This function actually shows the location of the person on the map. most importantly it is what gives us current latitude and longitude when button is clicked.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        currentLat = locValue.latitude
-        currentLon = locValue.longitude
         let userLocation = locations.last
         let viewRegion = MKCoordinateRegion(center: (userLocation?.coordinate)!, latitudinalMeters: 600, longitudinalMeters: 600)
+        currentLat = locValue.latitude
+        currentLon = locValue.longitude
         self.map.setRegion(viewRegion, animated: true)
     }
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -113,42 +106,41 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
-    
+
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
-    
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(markButton)
         view.addSubview(endButton)
-        view.addSubview(followQuestButton)
-        
+        view.addSubview(startQuestButton)
+
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.view.backgroundColor = UIColor.white
-        
+
         self.map = MKMapView(frame: CGRect(x: 0, y: 20, width: (self.window?.frame.width)!, height: 300))
         self.view.addSubview(self.map!)
-        
+
         self.locationManager.requestWhenInUseAuthorization()
         map.showsUserLocation = true
-        if CLLocationManager.locationServicesEnabled(){
-            
+        if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-        
-            _ = markButton.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 10, rightConstant: 40, heightConstant: 30)
-        
-            _ = endButton.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 50, rightConstant: 40, heightConstant: 30)
-        
-             _ = followQuestButton.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 90, rightConstant: 40, heightConstant: 30)
-        
+
+        _ = markButton.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 10, rightConstant: 40, heightConstant: 30)
+
+        _ = endButton.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 50, rightConstant: 40, heightConstant: 30)
+
+        _ = startQuestButton.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 90, rightConstant: 40, heightConstant: 30)
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
 }

@@ -9,10 +9,10 @@
 import UIKit
 import Firebase
 
-class LoginController: UIViewController {
+class SignInController: UIViewController {
     let myColor = UIColor(hue: 300, saturation: 60, brightness: 100, alpha: 0.2)
-    
-    //BACKGROUND IMAGE
+
+    //Background image
     let backgroundImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -20,8 +20,8 @@ class LoginController: UIViewController {
         iv.clipsToBounds = true
         return iv
     }()
-    
-    //EMAIL TEXT FIELD
+
+    //Email text field
     lazy var email: UITextField = {
         let textfield = UITextField()
         textfield.backgroundColor = .white
@@ -32,8 +32,8 @@ class LoginController: UIViewController {
         textfield.textAlignment = .center
         return textfield
     }()
-    
-    //PASSWORD TEXT FIELD
+
+    //Password text field
     let password: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Password"
@@ -44,16 +44,16 @@ class LoginController: UIViewController {
         tf.textAlignment = .center
         return tf
     }()
-    
-    //SEPERATOR
+
+    //Seperator
     let seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .gray
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    //REGISTER BUTTON
+
+    //Register button
     let registerButton: UIButton = {
         let butt = UIButton(type: .system)
         butt.backgroundColor = .gray
@@ -63,8 +63,8 @@ class LoginController: UIViewController {
         butt.layer.cornerRadius = 8.0
         return butt
     }()
-    
-    //BUTTON TO TAKE YOU TO SIGN UP PAGE
+
+    //Button takes you to sign up page
     let signUp: UIButton = {
         let su = UIButton(type: .system)
         su.backgroundColor = .gray
@@ -74,33 +74,30 @@ class LoginController: UIViewController {
         su.layer.cornerRadius = 8.0
         return su
     }()
-    
-    //FUNCTION CHANGES VIEW TO SIGN UP CONTROLLER
+
+
+    //Function changes the view to sign up controller
     @objc func signup() {
         let signupcontroller = SignupController()
         present(signupcontroller, animated: true, completion: {})
     }
-    
-    //THIS FUNCTION SIGNS IN USER AS LONG AS USER EXIST IN FIREBASE. SENDS USER TO PROFILE PAGE IF NO ERRORS
+
+    //This function signs in user as long as it exist in database, and if no errors send user to map view.
     @objc func loginAction(_ sender: Any) {
         Auth.auth().signIn(withEmail: email.text!, password: password.text!) { (user, error) in
-            if error == nil{
+            if error == nil {
                 let profilecell = MapViewController()
                 self.present(profilecell, animated: true, completion: {})
             }
-            else{
+            else {
                 let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                
                 alertController.addAction(defaultAction)
                 self.present(alertController, animated: true, completion: nil)
             }
         }
-        
     }
-    
-    
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -108,13 +105,13 @@ class LoginController: UIViewController {
             }
         }
     }
-    
+
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(backgroundImageView)
@@ -123,22 +120,20 @@ class LoginController: UIViewController {
         view.addSubview(seperatorView)
         view.addSubview(registerButton)
         view.addSubview(signUp)
-        
+    
         _ = backgroundImageView.anchor(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
-        
+
         _ = email.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 496, leftConstant: 15, bottomConstant: 0, rightConstant: 15, heightConstant: 50)
-        
+
         _ = seperatorView.anchor(email.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 20, bottomConstant: 0, rightConstant: 20, heightConstant: 1)
-        
+
         _ = password.anchor(seperatorView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 15, bottomConstant: 0, rightConstant: 15,  heightConstant: 50)
-        
+
         _ = registerButton.anchor(password.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 15, leftConstant: 30, bottomConstant: 0, rightConstant: 30, heightConstant: 50)
-        
+
         _ = signUp.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 10, rightConstant: 40, heightConstant: 30)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
-    
 }

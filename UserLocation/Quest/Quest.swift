@@ -6,6 +6,7 @@
 //  Copyright © 2019 Alvaro Sanchez. All rights reserved.
 //
 
+//WHAT IS THIS??
 import Foundation
 
 protocol DocumentSerializable {

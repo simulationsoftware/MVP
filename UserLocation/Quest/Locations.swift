@@ -13,23 +13,24 @@ public class Locations {
     var longitude: Double
     var next: Locations?
     weak var previous: Locations?
-    
+
+
     init(latitude: Double, longitude: Double) {
         self.latitude = latitude
         self.longitude = longitude
     }
-    
 }
 
-    class LinkedList: Sequence{
+class LinkedList: Sequence{
     fileprivate var head: Locations?
     private var tail: Locations?
-    
+
+
     func makeIterator() -> LinkedListIterator {
         return LinkedListIterator(self)
     }
-    
-    
+
+
     struct LinkedListIterator: IteratorProtocol {
         let linkedList: LinkedList
         var current: Locations?
@@ -44,50 +45,45 @@ public class Locations {
         }
     }
 
-    
-    
+
     public var isEmpty: Bool {
         return head == nil
     }
-    
+
     public var first: Locations?{
         return head
     }
-    
+
     public var last: Locations? {
         return tail
     }
-    
-    
+
+
     public func append(latitude: Double, longitude: Double){
         let newLocation = Locations(latitude: latitude, longitude: longitude)
-        
-        if let tailNode = tail{
+        if let tailNode = tail {
             newLocation.previous = tailNode
             tailNode.next = newLocation
         }
         else {
             head = newLocation
         }
-        
         tail = newLocation
-        
     }
-        
+
     func printList() {
-            var current: Locations? = head
-            //assign the next instance
-            while (current != nil) {
-                print("latitude: \(current?.latitude), longitude: \(current?.longitude)")
-                current = current?.next
-            }
+        var current: Locations? = head
+        //assign the next instance
+        while (current != nil) {
+            print("latitude: \(current?.latitude), longitude: \(current?.longitude)")
+            current = current?.next
         }
-        
+    }
 
     func removeAll() {
-            head = nil
-            tail = nil
-        }
+        head = nil
+        tail = nil
+    }
 }
 
 

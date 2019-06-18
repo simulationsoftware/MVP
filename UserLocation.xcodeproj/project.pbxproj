@@ -15,7 +15,7 @@
 		7E9247982285B59E006D6492 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9247972285B59E006D6492 /* Locations.swift */; };
 		7EABBEBD228E766000EB2269 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EABBEBC228E766000EB2269 /* Stack.swift */; };
 		7EABBEBF22965AFF00EB2269 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7EABBEBE22965AFF00EB2269 /* GoogleService-Info.plist */; };
-		7EABBEC122965FB200EB2269 /* CreateUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EABBEC022965FB200EB2269 /* CreateUser.swift */; };
+		7EABBEC122965FB200EB2269 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EABBEC022965FB200EB2269 /* SignUp.swift */; };
 		7EABBEC32296612000EB2269 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EABBEC22296612000EB2269 /* Extensions.swift */; };
 		7EABBEC52296663100EB2269 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EABBEC42296663100EB2269 /* MainNavigationController.swift */; };
 		7EB355C0229DE43800FC5ED0 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB355BF229DE43800FC5ED0 /* SignIn.swift */; };
@@ -37,7 +37,7 @@
 		7E9247972285B59E006D6492 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		7EABBEBC228E766000EB2269 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		7EABBEBE22965AFF00EB2269 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		7EABBEC022965FB200EB2269 /* CreateUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUser.swift; sourceTree = "<group>"; };
+		7EABBEC022965FB200EB2269 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		7EABBEC22296612000EB2269 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7EABBEC42296663100EB2269 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		7EB355BF229DE43800FC5ED0 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		7ECFC200229DF5CA00FAB27E /* Users */ = {
 			isa = PBXGroup;
 			children = (
-				7EABBEC022965FB200EB2269 /* CreateUser.swift */,
+				7EABBEC022965FB200EB2269 /* SignUp.swift */,
 				7EB355BF229DE43800FC5ED0 /* SignIn.swift */,
 			);
 			name = Users;
@@ -277,7 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ECFC20422A48E7800FAB27E /* Quest.swift in Sources */,
-				7EABBEC122965FB200EB2269 /* CreateUser.swift in Sources */,
+				7EABBEC122965FB200EB2269 /* SignUp.swift in Sources */,
 				7ECFC1FF229DF58500FAB27E /* FollowQuest.swift in Sources */,
 				7EABBEC32296612000EB2269 /* Extensions.swift in Sources */,
 				7EABBEBD228E766000EB2269 /* Stack.swift in Sources */,

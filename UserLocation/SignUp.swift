@@ -12,7 +12,7 @@ import Firebase
 class SignupController: UIViewController {
     let myColor = UIColor(hue: 300, saturation: 60, brightness: 100, alpha: 0.2)
     
-    //BACKGROUND IMAGE
+    //Background image
     let backgroundImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -20,8 +20,8 @@ class SignupController: UIViewController {
         iv.clipsToBounds = true
         return iv
     }()
-    
-    //EMAIL TEXT FIELD
+
+    //Email text field
     weak var email: UITextField! = {
         let textfield = UITextField()
         textfield.backgroundColor = .white
@@ -32,8 +32,8 @@ class SignupController: UIViewController {
         textfield.textAlignment = .center
         return textfield
     }()
-    
-    //PASSWORD TEXT FIELD
+
+    //Password text field
     weak var password: UITextField! = {
         let tf = UITextField()
         tf.placeholder = "Password"
@@ -44,8 +44,8 @@ class SignupController: UIViewController {
         tf.textAlignment = .center
         return tf
     }()
-    
-    //PASSWORD CONFIRM TEXT FIELD
+
+    //Password confirm text field
     weak var passwordConfirm: UITextField! = {
         let tf = UITextField()
         tf.placeholder = "Re-Type Password"
@@ -56,8 +56,8 @@ class SignupController: UIViewController {
         tf.textAlignment = .center
         return tf
     }()
-    
-    //SEPARATOR
+
+    //Seperator
     let seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .gray
@@ -65,15 +65,15 @@ class SignupController: UIViewController {
         return view
     }()
     
-    //SEPARATOR
+    //Seperator 2
     let seperatorToo: UIView = {
         let view = UIView()
         view.backgroundColor = .gray
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    //REGISTER BUTTON
+
+    //Register button
     let registerButton: UIButton = {
         let butt = UIButton(type: .system)
         butt.backgroundColor = .gray
@@ -83,8 +83,8 @@ class SignupController: UIViewController {
         butt.layer.cornerRadius = 8.0
         return butt
     }()
-    
-    //BUTTON THAT TAKES YOU TO SIGN IN PAGE
+
+    //Button that takes user to sign in page
     let signIn: UIButton = {
         let si = UIButton(type: .system)
         si.backgroundColor = .gray
@@ -94,24 +94,24 @@ class SignupController: UIViewController {
         si.layer.cornerRadius = 8.0
         return si
     }()
-    
-    //FUNCTION CHANGES VIEW TO LOGIN CONTROLLER
+
+
+    //Function changes view to Sign in page
     @objc func signin() {
-        let logincontroller = LoginController()
+        let logincontroller = SignInController()
         present(logincontroller, animated: true, completion: {})
     }
 
-    //THIS FUNCTION BOTH SIGNS UP THE USER, AND IF NO ERRORS SENDS USER TO TUTORIAL CONTROLLER
+    //This function signs up user in database, and if no errors send user to map view
     @objc func signUpAction(_ sender: Any) {
         if password.text != passwordConfirm.text {
             let alertController = UIAlertController(title: "Password Incorrect", message: "Please re-type password", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            
             alertController.addAction(defaultAction)
             self.present(alertController, animated: true, completion: nil)
         }
         else{
-            Auth.auth().createUser(withEmail: email.text!, password: password.text!){ (user, error) in
+            Auth.auth().createUser(withEmail: email.text!, password: password.text!) { (user, error) in
                 if error == nil {
                     //saving to db
                     var ref: DocumentReference? = nil
@@ -130,7 +130,7 @@ class SignupController: UIViewController {
             }
         }
     }
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -138,13 +138,14 @@ class SignupController: UIViewController {
             }
         }
     }
-    
+
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
-    
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(backgroundImageView)
@@ -155,8 +156,7 @@ class SignupController: UIViewController {
         view.addSubview(registerButton)
         view.addSubview(seperatorToo)
         view.addSubview(signIn)
-        
-        
+
         _ = backgroundImageView.anchor(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
         _ = email.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 446, leftConstant: 15, bottomConstant: 0, rightConstant: 15, heightConstant: 50)
@@ -172,10 +172,8 @@ class SignupController: UIViewController {
         _ = registerButton.anchor(passwordConfirm.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 15, leftConstant: 30, bottomConstant: 0, rightConstant: 30, heightConstant: 50)
         
         _ = signIn.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 40, bottomConstant: 10, rightConstant: 40, heightConstant: 30)
-        
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
 }
