@@ -79,11 +79,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @objc func endQuest(_ sender: Any) {
         var ref: DocumentReference? = nil
         var counter = 0
-        ref = db.collection("Log").document("quest\(questreference)")
+        ref = db.collection("Log").document("qV05ghtDjlSRsd36dRhR").collection("Locations").document()
         for locations in quest {
             counter += 1
             let latlon = GeoPoint(latitude: locations.latitude, longitude: locations.longitude)
-            ref!.updateData(["location \(counter)": latlon])
+            ref!.setData(["location \(counter)": latlon])
         }
         quest.removeAll()
         print("Ended")

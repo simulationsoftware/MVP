@@ -20,7 +20,6 @@
 		7EABBEC52296663100EB2269 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EABBEC42296663100EB2269 /* MainNavigationController.swift */; };
 		7EB355C0229DE43800FC5ED0 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB355BF229DE43800FC5ED0 /* SignIn.swift */; };
 		7ECFC1FF229DF58500FAB27E /* FollowQuest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECFC1FE229DF58500FAB27E /* FollowQuest.swift */; };
-		7ECFC20422A48E7800FAB27E /* Quest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECFC20322A48E7800FAB27E /* Quest.swift */; };
 		D76A795DA7A17598625826D1 /* Pods_UserLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23FD39D6D387E1F51BB4DA24 /* Pods_UserLocation.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +41,6 @@
 		7EABBEC42296663100EB2269 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		7EB355BF229DE43800FC5ED0 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		7ECFC1FE229DF58500FAB27E /* FollowQuest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowQuest.swift; sourceTree = "<group>"; };
-		7ECFC20322A48E7800FAB27E /* Quest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quest.swift; sourceTree = "<group>"; };
 		E50E2A112609EC48FE7A72F4 /* Pods-UserLocation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UserLocation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UserLocation/Pods-UserLocation.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,7 +132,6 @@
 				7ECFC1FE229DF58500FAB27E /* FollowQuest.swift */,
 				7EABBEBC228E766000EB2269 /* Stack.swift */,
 				7E9247972285B59E006D6492 /* Locations.swift */,
-				7ECFC20322A48E7800FAB27E /* Quest.swift */,
 			);
 			path = Quest;
 			sourceTree = "<group>";
@@ -276,7 +273,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7ECFC20422A48E7800FAB27E /* Quest.swift in Sources */,
 				7EABBEC122965FB200EB2269 /* SignUp.swift in Sources */,
 				7ECFC1FF229DF58500FAB27E /* FollowQuest.swift in Sources */,
 				7EABBEC32296612000EB2269 /* Extensions.swift in Sources */,
