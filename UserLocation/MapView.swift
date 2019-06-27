@@ -60,8 +60,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         let timeStamp = NSDate()
         var ref: DocumentReference? = nil
         questreference = "\(userID)\(timeStamp)"
-        ref = db.collection("Log").document("quest\(questreference)")
-        ref!.setData(["timestamp": timeStamp, "UID": userID, "location 1": 0.00, "location 2": 0.00, "location 3": 0.00])
+        ref = db.collection("Log").document("quest\(questreference)").collection("locations").document("1")
+        ref!.setData(["timestamp": timeStamp, "UID": userID, "location 1": GeoPoint(latitude: 0.00, longitude: 0.00)])
+        ref = db.collection("Log").document("quest\(questreference)").collection("locations").document("2")
+        ref!.setData(["timestamp": timeStamp, "UID": userID, "location 2": GeoPoint(latitude: 0.00, longitude: 0.00)])
+        ref = db.collection("Log").document("quest\(questreference)").collection("locations").document("3")
+        ref!.setData(["timestamp": timeStamp, "UID": userID, "location 3": GeoPoint(latitude: 0.00, longitude: 0.00)])
     }
 
     //Adds current location to quest array. Loops through array and annotates location on map.
@@ -79,11 +83,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @objc func endQuest(_ sender: Any) {
         var ref: DocumentReference? = nil
         var counter = 0
-        ref = db.collection("Log").document("qV05ghtDjlSRsd36dRhR").collection("Locations").document()
         for locations in quest {
             counter += 1
+            ref = db.collection("Log").document("quest\(questreference)").collection("locations").document("\(counter)")
             let latlon = GeoPoint(latitude: locations.latitude, longitude: locations.longitude)
-            ref!.setData(["location \(counter)": latlon])
+            ref!.updateData(["location \(counter)": latlon])
         }
         quest.removeAll()
         print("Ended")
